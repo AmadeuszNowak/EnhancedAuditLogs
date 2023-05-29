@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{beb1df42-f10d-42af-b3f8-9d410f31dd68}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="anowak_log" select="1" icon="1" preview="1">
+        <row name="result" id="anowak_auditlogid">
+          <cell name="anowak_log" width="300" />
+          <cell name="createdon" width="125" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>1</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="anowak_auditlog">
+          <attribute name="anowak_auditlogid" />
+          <attribute name="anowak_log" />
+          <attribute name="createdon" />
+          <order attribute="anowak_log" descending="false" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Audit Log Advanced Find View" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

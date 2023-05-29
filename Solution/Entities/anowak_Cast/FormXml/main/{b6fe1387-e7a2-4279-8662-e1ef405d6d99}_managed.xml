@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{b6fe1387-e7a2-4279-8662-e1ef405d6d99}</formid>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form headerdensity="HighWithControls">
+      <tabs>
+        <tab verticallayout="true" id="{463e0c75-f8aa-46a8-8cde-7a755a18a4a7}" IsUserDefined="1">
+          <labels>
+            <label description="General" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{d4ce5888-c6f3-4fd7-a24a-094a2e7357ef}">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{87393926-83fc-4a2c-b38b-f3c669f83216}">
+                        <labels>
+                          <label description="Name" languagecode="1033" />
+                        </labels>
+                        <control id="anowak_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="anowak_name" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{cd6c9783-435c-47f1-8fda-5bc26e7047e4}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{01bf519c-5758-461f-ac98-af544a69b8e2}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Organization" languagecode="1033" />
+                        </labels>
+                        <control id="anowak_organization" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="anowak_organization" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{e7cb2191-bf5c-444c-9b1a-9c7ef775fb0b}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Leader" languagecode="1033" />
+                        </labels>
+                        <control id="anowak_leader" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="anowak_leader" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{74026c0b-de88-4bac-ae14-10c68ac2a1d0}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Joined" languagecode="1033" />
+                        </labels>
+                        <control id="anowak_joined" classid="{5B773807-9FB2-42DB-97C3-7A91EFF8ADFF}" datafieldname="anowak_joined" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{abbe1774-13db-4969-ba20-688d41df4f42}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Status" languagecode="1033" />
+                        </labels>
+                        <control id="statecode" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="statecode" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <header id="{8a538f11-9de2-42a2-855d-44698516c00a}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{123261e2-63e7-4e55-992c-cc9909eaed3f}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{00d1b6b7-a9d5-4edd-bfcd-1a3798bdecaa}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{9962f234-f6ad-4e6a-a85f-72b1ca4f2f81}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+          </row>
+        </rows>
+      </header>
+      <footer id="{6aa968ba-0365-4a64-8eb7-f910ac8a75a9}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{a572068d-b90a-4b6b-84a8-7a706f5f14ff}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{d00b18ed-085a-4940-afed-7d99dec69087}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{e250f3f5-97c0-4d0d-bcbd-23a253e57b4f}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+          </row>
+        </rows>
+      </footer>
+      <DisplayConditions Order="0" FallbackForm="true">
+        <Everyone />
+      </DisplayConditions>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

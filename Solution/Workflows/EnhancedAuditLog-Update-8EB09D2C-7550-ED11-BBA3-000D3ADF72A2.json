@@ -1,0 +1,986 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "anowak_sharedcommondataserviceforapps_6f1a6"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "EnvironmentURL (anowak_EnvironmentURL)": {
+          "defaultValue": "https://org4a297f94.crm.dynamics.com/",
+          "type": "String",
+          "metadata": {
+            "schemaName": "anowak_EnvironmentURL"
+          }
+        },
+        "TenantId (anowak_TenantId)": {
+          "defaultValue": "0b4565e2-fbfe-4ae1-9e78-5d96d834f1e5",
+          "type": "String",
+          "metadata": {
+            "schemaName": "anowak_TenantId"
+          }
+        }
+      },
+      "triggers": {
+        "When_a_row_is_added,_modified_or_deleted": {
+          "metadata": {
+            "operationMetadataId": "94665ebc-2a12-47b9-9d53-44815863a4ec"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 3,
+              "subscriptionRequest/entityname": "anowak_cast",
+              "subscriptionRequest/scope": 4,
+              "subscriptionRequest/filteringattributes": "anowak_name,anowak_organization,anowak_leader,anowak_joined,statuscode",
+              "subscriptionRequest/name": "8eb09d2c-7550-ed11-bba3-000d3adf72a2"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Initialize_variable_-_arrColumns": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "6a0f1d14-4ec9-4464-98ea-d844e15ef009"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "arrColumns",
+                "type": "array",
+                "value": [
+                  {
+                    "logical_name": "anowak_name",
+                    "display_name": "Name",
+                    "type": "Text",
+                    "related_table": "",
+                    "related_column": ""
+                  },
+                  {
+                    "logical_name": "anowak_organization",
+                    "display_name": "Organization",
+                    "type": "Choice",
+                    "related_table": "anowak_organization",
+                    "related_column": ""
+                  },
+                  {
+                    "logical_name": "anowak_leader",
+                    "display_name": "Leader",
+                    "type": "Lookup",
+                    "related_table": "anowak_cast",
+                    "related_column": "anowak_name"
+                  },
+                  {
+                    "logical_name": "anowak_joined",
+                    "display_name": "Joined",
+                    "type": "Date",
+                    "related_table": "",
+                    "related_column": ""
+                  },
+                  {
+                    "logical_name": "statecode",
+                    "display_name": "Status",
+                    "type": "Status",
+                    "related_table": "",
+                    "related_column": ""
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "Initialize_variable_-_strChanges": {
+          "runAfter": {
+            "Initialize_variable_-_arrColumns": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "002e0282-9d6b-47fd-842b-fc93063788fd"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "strChanges",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Initialize_variable_-_strOld": {
+          "runAfter": {
+            "Initialize_variable_-_strChanges": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "6806dc8f-e914-48d9-9ee4-a844e77fb02c"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "strOld",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Initialize_variable_-_strNew": {
+          "runAfter": {
+            "Initialize_variable_-_strOld": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "00175c2c-3619-4a87-95bf-ac64ccef17ff"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "strNew",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Initialize_variable_-_strEmpty": {
+          "runAfter": {
+            "Initialize_variable_-_strNew": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "bbaf07be-8453-49ba-a9c3-288ef1653439"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "strEmpty",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Perform_an_unbound_action_-_get_client_id": {
+          "runAfter": {
+            "Initialize_variable_-_strEmpty": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "183af72c-04dd-4b1d-8855-0263aa79322c"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "PerformUnboundAction",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "actionName": "RetrieveEnvironmentVariableSecretValue",
+              "item/EnvironmentVariableName": "anowak_ClientId"
+            },
+            "authentication": "@parameters('$authentication')"
+          },
+          "runtimeConfiguration": {
+            "secureData": {
+              "properties": [
+                "outputs"
+              ]
+            }
+          }
+        },
+        "Perform_an_unbound_action_-_get_client_secret": {
+          "runAfter": {
+            "Perform_an_unbound_action_-_get_client_id": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e9d59fc8-a1b3-4848-b9d7-4af1884ab552"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "PerformUnboundAction",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "actionName": "RetrieveEnvironmentVariableSecretValue",
+              "item/EnvironmentVariableName": "anowak_ClientSecret"
+            },
+            "authentication": "@parameters('$authentication')"
+          },
+          "runtimeConfiguration": {
+            "secureData": {
+              "properties": [
+                "outputs"
+              ]
+            }
+          }
+        },
+        "Compose_-_http_request_-_get_audit_id": {
+          "runAfter": {
+            "Perform_an_unbound_action_-_get_client_secret": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e38ce1c3-c9cb-4004-96eb-93f56b0b6b11"
+          },
+          "type": "Compose",
+          "inputs": "@{parameters('EnvironmentURL (anowak_EnvironmentURL)')}api/data/v9.0/audits?$filter=_objectid_value eq @{triggerOutputs()?['body/anowak_castid']}&$orderby=createdon desc&$top=1"
+        },
+        "HTTP_-_get_audit_id": {
+          "runAfter": {
+            "Compose_-_http_request_-_get_audit_id": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4d089d39-5f58-4fa2-ac88-a8cb973ac785"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "GET",
+            "uri": "@{outputs('Compose_-_http_request_-_get_audit_id')}",
+            "authentication": {
+              "type": "ActiveDirectoryOAuth",
+              "tenant": "@parameters('TenantId (anowak_TenantId)')",
+              "audience": "@parameters('EnvironmentURL (anowak_EnvironmentURL)')",
+              "clientId": "@outputs('Perform_an_unbound_action_-_get_client_id')?['body/EnvironmentVariableSecretValue']",
+              "secret": "@outputs('Perform_an_unbound_action_-_get_client_secret')?['body/EnvironmentVariableSecretValue']"
+            }
+          }
+        },
+        "Compose_-_http_request_-_get_audit_log": {
+          "runAfter": {
+            "HTTP_-_get_audit_id": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "b2c964bd-2efa-48d1-b373-f9330e4e444d"
+          },
+          "type": "Compose",
+          "inputs": "@{parameters('EnvironmentURL (anowak_EnvironmentURL)')}api/data/v9.0/audits(@{last(body('HTTP_-_get_audit_id')?['value'])?['auditid']})/Microsoft.Dynamics.CRM.RetrieveAuditDetails()",
+          "description": "last(body('HTTP_-_get_audit_id')?['value'])?['auditid']"
+        },
+        "HTTP_-_get_audit_log": {
+          "runAfter": {
+            "Compose_-_http_request_-_get_audit_log": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "b32d8864-7f5a-4baa-a560-6b3b0b4dc114"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "GET",
+            "uri": "@{outputs('Compose_-_http_request_-_get_audit_log')}",
+            "authentication": {
+              "type": "ActiveDirectoryOAuth",
+              "tenant": "@parameters('TenantId (anowak_TenantId)')",
+              "audience": "@parameters('EnvironmentURL (anowak_EnvironmentURL)')",
+              "clientId": "@outputs('Perform_an_unbound_action_-_get_client_id')?['body/EnvironmentVariableSecretValue']",
+              "secret": "@outputs('Perform_an_unbound_action_-_get_client_secret')?['body/EnvironmentVariableSecretValue']"
+            }
+          }
+        },
+        "Compose_-_OldValues": {
+          "runAfter": {
+            "HTTP_-_get_audit_log": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "3f2abf00-82af-48e7-aa64-5720d60ac3e9"
+          },
+          "type": "Compose",
+          "inputs": "@body('HTTP_-_get_audit_log')?['AuditDetail']?['OldValue']",
+          "description": "body('HTTP_-_get_audit_log')?['AuditDetail']?['OldValue']"
+        },
+        "Compose_-_NewValues": {
+          "runAfter": {
+            "Compose_-_OldValues": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "8372cdae-cd0a-4f3a-a651-4a156fbd9df3"
+          },
+          "type": "Compose",
+          "inputs": "@body('HTTP_-_get_audit_log')?['AuditDetail']?['NewValue']",
+          "description": "body('HTTP_-_get_audit_log')?['AuditDetail']?['NewValue']"
+        },
+        "Apply_to_each_-_arrColumns": {
+          "foreach": "@variables('arrColumns')",
+          "actions": {
+            "Set_variable_-_strOld": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "a8db4eee-5cba-4b0f-9fd3-86f1a7683e7d"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "strOld",
+                "value": "@{outputs('Compose_-_OldValues')?[item()?['logical_name']]}"
+              }
+            },
+            "Set_variable_-_strNew": {
+              "runAfter": {
+                "Set_variable_-_strOld": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "74971fc0-39db-4098-8d4b-27653f6bac9d"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "strNew",
+                "value": "@{outputs('Compose_-_NewValues')?[item()?['logical_name']]}"
+              }
+            },
+            "Condition_-_change_occured_on_this_column": {
+              "actions": {
+                "Switch": {
+                  "runAfter": {},
+                  "cases": {
+                    "Choice": {
+                      "case": "Choice",
+                      "actions": {
+                        "Compose_-_http_request_-_get_choice_options": {
+                          "runAfter": {},
+                          "type": "Compose",
+                          "inputs": "@{parameters('EnvironmentURL (anowak_EnvironmentURL)')}api/data/v9.0/GlobalOptionSetDefinitions(Name='@{items('Apply_to_each_-_arrColumns')?['related_table']}')"
+                        },
+                        "HTTP_-_get_choice_options": {
+                          "runAfter": {
+                            "Compose_-_http_request_-_get_choice_options": [
+                              "Succeeded"
+                            ]
+                          },
+                          "type": "Http",
+                          "inputs": {
+                            "method": "GET",
+                            "uri": "@{outputs('Compose_-_http_request_-_get_choice_options')}",
+                            "authentication": {
+                              "type": "ActiveDirectoryOAuth",
+                              "tenant": "@parameters('TenantId (anowak_TenantId)')",
+                              "audience": "@parameters('EnvironmentURL (anowak_EnvironmentURL)')",
+                              "clientId": "@outputs('Perform_an_unbound_action_-_get_client_id')?['body/EnvironmentVariableSecretValue']",
+                              "secret": "@outputs('Perform_an_unbound_action_-_get_client_secret')?['body/EnvironmentVariableSecretValue']"
+                            }
+                          }
+                        },
+                        "Condition_-_old_choice_not_empty": {
+                          "actions": {
+                            "Filter_array_-_old_choice": {
+                              "runAfter": {},
+                              "type": "Query",
+                              "inputs": {
+                                "from": "@body('HTTP_-_get_choice_options')?['Options']",
+                                "where": "@equals(string(item()['Value']), variables('strOld'))"
+                              },
+                              "description": "body('HTTP_-_get_choice_options')?['Options']"
+                            },
+                            "Parse_JSON_-_old_choice": {
+                              "runAfter": {
+                                "Filter_array_-_old_choice": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "type": "ParseJson",
+                              "inputs": {
+                                "content": "@first(body('Filter_array_-_old_choice'))",
+                                "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Value": {
+                                      "type": "integer"
+                                    },
+                                    "Label": {
+                                      "type": "object",
+                                      "properties": {
+                                        "LocalizedLabels": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "Label": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "Label"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "description": "first(body('Filter_array_-_old_choice'))"
+                            },
+                            "Set_variable_-_choice_-_strOld_to_label": {
+                              "runAfter": {
+                                "Parse_JSON_-_old_choice": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "type": "SetVariable",
+                              "inputs": {
+                                "name": "strOld",
+                                "value": "@{first(body('Parse_JSON_-_old_choice')?['Label']?['LocalizedLabels'])?['Label']}"
+                              },
+                              "description": "first(body('Parse_JSON_-_old_choice')?['Label']?['LocalizedLabels'])?['Label']"
+                            }
+                          },
+                          "runAfter": {
+                            "HTTP_-_get_choice_options": [
+                              "Succeeded"
+                            ]
+                          },
+                          "else": {
+                            "actions": {
+                              "Set_variable_-_choice_-_strOld_to_empty": {
+                                "runAfter": {},
+                                "type": "SetVariable",
+                                "inputs": {
+                                  "name": "strOld",
+                                  "value": "empty"
+                                }
+                              }
+                            }
+                          },
+                          "expression": {
+                            "not": {
+                              "equals": [
+                                "@variables('strOld')",
+                                "@variables('strEmpty')"
+                              ]
+                            }
+                          },
+                          "type": "If"
+                        },
+                        "Condition_-_new_choice_not_empty": {
+                          "actions": {
+                            "Filter_array_-_new_choice": {
+                              "runAfter": {},
+                              "type": "Query",
+                              "inputs": {
+                                "from": "@body('HTTP_-_get_choice_options')?['Options']",
+                                "where": "@equals(string(item()['Value']), variables('strNew'))"
+                              },
+                              "description": "body('HTTP_-_get_choice_options')?['Options']"
+                            },
+                            "Set_variable_-_choice_-_strNew_to_label": {
+                              "runAfter": {
+                                "Parse_JSON_-_new_choice": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "type": "SetVariable",
+                              "inputs": {
+                                "name": "strNew",
+                                "value": "@{first(body('Parse_JSON_-_new_choice')?['Label']?['LocalizedLabels'])?['Label']}"
+                              },
+                              "description": "first(body('Parse_JSON_-_new_choice')?['Label']?['LocalizedLabels'])?['Label']"
+                            },
+                            "Parse_JSON_-_new_choice": {
+                              "runAfter": {
+                                "Filter_array_-_new_choice": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "type": "ParseJson",
+                              "inputs": {
+                                "content": "@first(body('Filter_array_-_new_choice'))",
+                                "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Value": {
+                                      "type": "integer"
+                                    },
+                                    "Label": {
+                                      "type": "object",
+                                      "properties": {
+                                        "LocalizedLabels": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "Label": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "Label"
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "description": "first(body('Filter_array_-_new_choice'))"
+                            }
+                          },
+                          "runAfter": {
+                            "Condition_-_old_choice_not_empty": [
+                              "Succeeded"
+                            ]
+                          },
+                          "else": {
+                            "actions": {
+                              "Set_variable_-_choice_-_strNew_to_empty": {
+                                "runAfter": {},
+                                "type": "SetVariable",
+                                "inputs": {
+                                  "name": "strNew",
+                                  "value": "empty"
+                                }
+                              }
+                            }
+                          },
+                          "expression": {
+                            "equals": [
+                              "@variables('strNew')",
+                              "@variables('strEmpty')"
+                            ]
+                          },
+                          "type": "If"
+                        }
+                      }
+                    },
+                    "Lookup": {
+                      "case": "Lookup",
+                      "actions": {
+                        "Condition_-_old_lookup_not_empty": {
+                          "actions": {
+                            "Get_a_row_by_ID_-_old_lookup": {
+                              "runAfter": {},
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps",
+                                  "operationId": "GetItem",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "@items('Apply_to_each_-_arrColumns')?['related_table']",
+                                  "recordId": "@variables('strOld')"
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "Set_variable_-_lookup_-_strOld_to_label": {
+                              "runAfter": {
+                                "Get_a_row_by_ID_-_old_lookup": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "type": "SetVariable",
+                              "inputs": {
+                                "name": "strOld",
+                                "value": "@{\r\nbody('Get_a_row_by_ID_-_old_lookup')?[item()?['related_name']]}"
+                              },
+                              "description": "body('Get_a_row_by_ID_-_old_lookup')?[item()?['related_name']]"
+                            }
+                          },
+                          "runAfter": {},
+                          "else": {
+                            "actions": {
+                              "Set_variable_-_lookup_-_strOld_to_empty": {
+                                "runAfter": {},
+                                "type": "SetVariable",
+                                "inputs": {
+                                  "name": "strOld",
+                                  "value": "empty"
+                                }
+                              }
+                            }
+                          },
+                          "expression": {
+                            "not": {
+                              "equals": [
+                                "@variables('strOld')",
+                                "@variables('strEmpty')"
+                              ]
+                            }
+                          },
+                          "type": "If"
+                        },
+                        "Condition_-_new_lookup_not_empty": {
+                          "actions": {
+                            "Get_a_row_by_ID_-_new_lookup": {
+                              "runAfter": {},
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps",
+                                  "operationId": "GetItem",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "@items('Apply_to_each_-_arrColumns')?['related_table']",
+                                  "recordId": "@variables('strNew')"
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "Set_variable_-_lookup_-_strNew_to_label": {
+                              "runAfter": {
+                                "Get_a_row_by_ID_-_new_lookup": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "type": "SetVariable",
+                              "inputs": {
+                                "name": "strNew",
+                                "value": "@{body('Get_a_row_by_ID_-_new_lookup')?[item()?['related_name']]}"
+                              },
+                              "description": "body('Get_a_row_by_ID_-_new_lookup')?[item()?['related_name']]"
+                            }
+                          },
+                          "runAfter": {
+                            "Condition_-_old_lookup_not_empty": [
+                              "Succeeded"
+                            ]
+                          },
+                          "else": {
+                            "actions": {
+                              "Set_variable_-_lookup_-_strNew_to_empty": {
+                                "runAfter": {},
+                                "type": "SetVariable",
+                                "inputs": {
+                                  "name": "strNew",
+                                  "value": "empty"
+                                }
+                              }
+                            }
+                          },
+                          "expression": {
+                            "not": {
+                              "equals": [
+                                "@variables('strNew')",
+                                "@variables('strEmpty')"
+                              ]
+                            }
+                          },
+                          "type": "If"
+                        }
+                      }
+                    },
+                    "Date": {
+                      "case": "Date",
+                      "actions": {
+                        "Condition_-_old_date_not_empty": {
+                          "actions": {
+                            "Set_variable_-_date_-_strOld_to_formatted_date": {
+                              "runAfter": {},
+                              "type": "SetVariable",
+                              "inputs": {
+                                "name": "strOld",
+                                "value": "@{formatDateTime(outputs('Compose_-_OldValues')?[item()?['logical_name']], 'yyyy-MM-dd')}"
+                              },
+                              "description": "formatDateTime(outputs('Compose_-_OldValues')?[item()?['logical_name']], 'yyyy-MM-dd')"
+                            }
+                          },
+                          "runAfter": {},
+                          "else": {
+                            "actions": {
+                              "Set_variable_-_date_-_strOld_to_empty": {
+                                "runAfter": {},
+                                "type": "SetVariable",
+                                "inputs": {
+                                  "name": "strOld",
+                                  "value": "empty"
+                                }
+                              }
+                            }
+                          },
+                          "expression": {
+                            "not": {
+                              "equals": [
+                                "@variables('strOld')",
+                                "@variables('strEmpty')"
+                              ]
+                            }
+                          },
+                          "type": "If"
+                        },
+                        "Condition_-_new_date_not_empty": {
+                          "actions": {
+                            "Set_variable_-_date_-_strNew_to_formatted_date": {
+                              "runAfter": {},
+                              "type": "SetVariable",
+                              "inputs": {
+                                "name": "strNew",
+                                "value": "@{formatDateTime(outputs('Compose_-_NewValues')?[item()?['logical_name']], 'yyyy-MM-dd')}"
+                              },
+                              "description": "formatDateTime(outputs('Compose_-_NewValues')?[item()?['logical_name']], 'yyyy-MM-dd')"
+                            }
+                          },
+                          "runAfter": {
+                            "Condition_-_old_date_not_empty": [
+                              "Succeeded"
+                            ]
+                          },
+                          "else": {
+                            "actions": {
+                              "Set_variable_-_date_-_strNew_to_empty": {
+                                "runAfter": {},
+                                "type": "SetVariable",
+                                "inputs": {
+                                  "name": "strNew",
+                                  "value": "empty"
+                                }
+                              }
+                            }
+                          },
+                          "expression": {
+                            "not": {
+                              "equals": [
+                                "@variables('strNew')",
+                                "@variables('strEmpty')"
+                              ]
+                            }
+                          },
+                          "type": "If"
+                        }
+                      }
+                    },
+                    "Status": {
+                      "case": "Status",
+                      "actions": {
+                        "Set_variable_-_status_-_strOld_to_label": {
+                          "runAfter": {},
+                          "type": "SetVariable",
+                          "inputs": {
+                            "name": "strOld",
+                            "value": "@{if(equals(outputs('Compose_-_OldValues')?[item()?['logical_name']],0),'Active','Inactive')}"
+                          },
+                          "description": "if(equals(outputs('Compose_-_OldValues')?[item()?['logical_name']],0),'Active','Inactive')"
+                        },
+                        "Set_variable_-_status_-_strNew_to_label": {
+                          "runAfter": {
+                            "Set_variable_-_status_-_strOld_to_label": [
+                              "Succeeded"
+                            ]
+                          },
+                          "type": "SetVariable",
+                          "inputs": {
+                            "name": "strNew",
+                            "value": "@{if(equals(outputs('Compose_-_NewValues')?[item()?['logical_name']],0),'Active','Inactive')}"
+                          },
+                          "description": "if(equals(outputs('Compose_-_NewValues')?[item()?['logical_name']],0),'Active','Inactive')"
+                        }
+                      }
+                    }
+                  },
+                  "default": {
+                    "actions": {
+                      "Condition_-_old_default_not_empty": {
+                        "actions": {},
+                        "runAfter": {},
+                        "else": {
+                          "actions": {
+                            "Set_variable_-_default_-_strOld_to_empty": {
+                              "runAfter": {},
+                              "type": "SetVariable",
+                              "inputs": {
+                                "name": "strOld",
+                                "value": "empty"
+                              }
+                            }
+                          }
+                        },
+                        "expression": {
+                          "not": {
+                            "equals": [
+                              "@variables('strOld')",
+                              "@variables('strEmpty')"
+                            ]
+                          }
+                        },
+                        "type": "If"
+                      },
+                      "Condition_-_new_default_not_empty": {
+                        "actions": {},
+                        "runAfter": {
+                          "Condition_-_old_default_not_empty": [
+                            "Succeeded"
+                          ]
+                        },
+                        "else": {
+                          "actions": {
+                            "Set_variable_-_default_-_strNew_to_empty": {
+                              "runAfter": {},
+                              "type": "SetVariable",
+                              "inputs": {
+                                "name": "strNew",
+                                "value": "empty"
+                              }
+                            }
+                          }
+                        },
+                        "expression": {
+                          "not": {
+                            "equals": [
+                              "@variables('strNew')",
+                              "@variables('strEmpty')"
+                            ]
+                          }
+                        },
+                        "type": "If"
+                      }
+                    }
+                  },
+                  "expression": "@items('Apply_to_each_-_arrColumns')?['type']",
+                  "metadata": {
+                    "operationMetadataId": "f94c96d8-de51-42da-9cf6-e9d8ff7a7bb5"
+                  },
+                  "type": "Switch"
+                },
+                "Append_to_string_variable_-_strChanges": {
+                  "runAfter": {
+                    "Switch": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "fc40f9cc-f9ea-449d-a910-03f5dc9077f2"
+                  },
+                  "type": "AppendToStringVariable",
+                  "inputs": {
+                    "name": "strChanges",
+                    "value": "@{items('Apply_to_each_-_arrColumns')?['display_name']} changed from '@{variables('strOld')}' to '@{variables('strNew')}'\n"
+                  }
+                }
+              },
+              "runAfter": {
+                "Set_variable_-_strNew": [
+                  "Succeeded"
+                ]
+              },
+              "expression": {
+                "contains": [
+                  "@string(body('HTTP_-_get_audit_log'))",
+                  "@items('Apply_to_each_-_arrColumns')?['logical_name']"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "a67631c8-c80f-44eb-a7d0-44b0c4092798"
+              },
+              "type": "If"
+            },
+            "Set_variable_-_clean_strOld": {
+              "runAfter": {
+                "Condition_-_change_occured_on_this_column": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "a8db4eee-5cba-4b0f-9fd3-86f1a7683e7d"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "strOld",
+                "value": "@variables('strEmpty')"
+              }
+            },
+            "Set_variable_-_clean_strNew": {
+              "runAfter": {
+                "Set_variable_-_clean_strOld": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "a8db4eee-5cba-4b0f-9fd3-86f1a7683e7d"
+              },
+              "type": "SetVariable",
+              "inputs": {
+                "name": "strNew",
+                "value": "@variables('strEmpty')"
+              }
+            }
+          },
+          "runAfter": {
+            "Compose_-_NewValues": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "3484415c-1cee-431e-9cda-1adcbe29c78b"
+          },
+          "type": "Foreach"
+        },
+        "Add_a_new_row": {
+          "runAfter": {
+            "Apply_to_each_-_arrColumns": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e75a9fea-4e2e-42df-bc6c-1a70f54ea1ae"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "CreateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "anowak_auditlogs",
+              "item/anowak_Changedby@odata.bind": "systemusers(@{triggerOutputs()?['body/_modifiedby_value']})",
+              "item/anowak_changedon": "@triggerOutputs()?['body/modifiedon']",
+              "item/anowak_changes": "@variables('strChanges')",
+              "item/anowak_context": 186390001,
+              "item/anowak_Record@odata.bind": "anowak_casts(@{triggerOutputs()?['body/anowak_castid']})"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}
