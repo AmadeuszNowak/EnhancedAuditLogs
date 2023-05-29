@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityRelationships xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <EntityRelationship Name="anowak_anowak_auditlog_Changedby_systemuser" />
+  <EntityRelationship Name="anowak_anowak_auditlog_Record_anowak_cast" />
+  <EntityRelationship Name="anowak_anowak_cast_Leader_anowak_cast" />
+  <EntityRelationship Name="business_unit_anowak_auditlog" />
+  <EntityRelationship Name="business_unit_anowak_cast" />
+  <EntityRelationship Name="lk_anowak_auditlog_createdby" />
+  <EntityRelationship Name="lk_anowak_auditlog_modifiedby" />
+  <EntityRelationship Name="lk_anowak_cast_createdby" />
+  <EntityRelationship Name="lk_anowak_cast_modifiedby" />
+  <EntityRelationship Name="owner_anowak_auditlog" />
+  <EntityRelationship Name="owner_anowak_cast" />
+  <EntityRelationship Name="team_anowak_auditlog" />
+  <EntityRelationship Name="team_anowak_cast" />
+  <EntityRelationship Name="user_anowak_auditlog" />
+  <EntityRelationship Name="user_anowak_cast" />
+</EntityRelationships>

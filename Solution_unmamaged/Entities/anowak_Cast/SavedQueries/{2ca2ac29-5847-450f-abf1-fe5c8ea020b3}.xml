@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{2ca2ac29-5847-450f-abf1-fe5c8ea020b3}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="anowak_name" select="1" icon="1" preview="1">
+        <row name="result" id="anowak_castid">
+          <cell name="anowak_name" width="300" />
+          <cell name="anowak_organization" width="100" />
+          <cell name="anowak_leader" width="100" />
+          <cell name="anowak_joined" width="100" />
+          <cell name="statecode" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="anowak_cast">
+          <attribute name="anowak_castid" />
+          <attribute name="anowak_name" />
+          <order attribute="anowak_name" descending="false" />
+          <attribute name="anowak_organization" />
+          <attribute name="anowak_leader" />
+          <attribute name="anowak_joined" />
+          <attribute name="statecode" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Active Casts" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>
